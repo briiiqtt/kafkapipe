@@ -2,7 +2,7 @@ package dev.briiiqtt.consumer.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.briiiqtt.common.constants.Topics;
-import dev.briiiqtt.common.model.LogMessage;
+import dev.briiiqtt.common.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -31,7 +31,7 @@ public class LoggingConsumer {
 
     private void processLogMessage(String jsonMessage, String topic) {
         try {
-            LogMessage logMessage = objectMapper.readValue(jsonMessage, LogMessage.class);
+            Message message = objectMapper.readValue(jsonMessage, Message.class);
 
             // TODO: 가져온 메시지 처리 로직
 

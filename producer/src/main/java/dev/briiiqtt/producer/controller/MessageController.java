@@ -1,6 +1,6 @@
 package dev.briiiqtt.producer.controller;
 
-import dev.briiiqtt.common.model.LogMessage;
+import dev.briiiqtt.common.model.Message;
 import dev.briiiqtt.producer.service.MessageProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> sendLog(@RequestBody LogMessage logMessage) {
+    public ResponseEntity<String> sendLog(@RequestBody Message message) {
         if (false /*TODO: 조건설정*/) {
             return ResponseEntity.badRequest().build();
         }
 
-        messageProducer.sendLogMessage(logMessage);
+        messageProducer.sendLogMessage(message);
         return ResponseEntity.ok(""/*TODO: response 형식 정의*/);
     }
 }

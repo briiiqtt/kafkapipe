@@ -2,7 +2,7 @@ package dev.briiiqtt.producer.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.briiiqtt.common.constants.Topics;
-import dev.briiiqtt.common.model.LogMessage;
+import dev.briiiqtt.common.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -24,10 +24,10 @@ public class MessageProducer {
         this.objectMapper = objectMapper;
     }
 
-    public void sendLogMessage(LogMessage logMessage) {
+    public void sendLogMessage(Message message) {
         try {
-            String topic = getTopicByLogType(logMessage.getLogType());
-            String jsonMessage = objectMapper.writeValueAsString(logMessage);
+            String topic = getTopicByLogType(message.getMessageType());
+            String jsonMessage = objectMapper.writeValueAsString(message);
 
             CompletableFuture<SendResult<String, String>> future =
                     kafkaTemplate.send(topic, jsonMessage);
