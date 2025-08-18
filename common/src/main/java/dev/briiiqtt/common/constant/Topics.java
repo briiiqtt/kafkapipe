@@ -1,4 +1,4 @@
-package dev.briiiqtt.common.constants;
+package dev.briiiqtt.common.constant;
 
 public class Topics {
     private Topics() {

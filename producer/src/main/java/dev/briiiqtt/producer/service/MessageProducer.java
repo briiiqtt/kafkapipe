@@ -1,7 +1,7 @@
 package dev.briiiqtt.producer.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.briiiqtt.common.constants.Topics;
+import dev.briiiqtt.common.constant.Topics;
 import dev.briiiqtt.common.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
