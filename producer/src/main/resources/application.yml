@@ -1,0 +1,20 @@
+server:
+  port: 52002
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: kafka1:9092,kafka2:9093,kafka3:9094
+      group-id: logging-consumer-group
+      auto-offset-reset: earliest
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      acks: all
+      retries: 3
+
+logging:
+  level:
+    dev.briiiqtt.consumer: DEBUG
+    org.springframework.kafka: INFO
