@@ -3,6 +3,10 @@ server:
 
 spring:
   kafka:
+    admin:
+      properties:
+        default.replication.factor: 3
+        min.insync.replicas: 2
     consumer:
       bootstrap-servers: kafka1:9092,kafka2:9093,kafka3:9094
       group-id: group-1
@@ -14,3 +18,8 @@ logging:
   level:
     dev.briiiqtt.consumer: DEBUG
     org.springframework.kafka: INFO
+
+minio:
+  url: http://minio:9000
+  access-key: minioadmin
+  secret-key: minioadmin123

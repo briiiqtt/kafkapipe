@@ -1,22 +1,24 @@
-package dev.briiiqtt.consumer.service;
+package dev.briiiqtt.consumer.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.briiiqtt.common.constant.Topics;
 import dev.briiiqtt.common.model.Message;
+import dev.briiiqtt.consumer.logstorage.LogStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoggingConsumer {
+public class LoggingConsumerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingConsumer.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(LoggingConsumerService.class);
     private final ObjectMapper objectMapper;
+    private final LogStorageService logStorageService;
 
-    public LoggingConsumer(ObjectMapper objectMapper) {
+    public LoggingConsumerService(ObjectMapper objectMapper, LogStorageService logStorageService) {
         this.objectMapper = objectMapper;
+        this.logStorageService = logStorageService;
     }
 
     @KafkaListener(topics = Topics.USER_ACTION, groupId = "group-1")
@@ -33,7 +35,9 @@ public class LoggingConsumer {
         try {
             Message message = objectMapper.readValue(jsonMessage, Message.class);
 
-            // TODO: 가져온 메시지 처리 로직
+            logger.info("message parsed: {}", message.toString());
+
+            logStorageService.addMessage(message, topic);
 
         } catch (Exception e) {
             logger.error("topic: {} errorMessage: {}", topic, e.getMessage());
