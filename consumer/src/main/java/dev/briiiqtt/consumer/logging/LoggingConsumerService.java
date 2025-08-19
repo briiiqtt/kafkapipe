@@ -23,15 +23,15 @@ public class LoggingConsumerService {
 
     @KafkaListener(topics = Topics.USER_ACTION, groupId = "group-1")
     public void handleUserAction(String message) {
-        processLogMessage(message, Topics.USER_ACTION);
+        processMessage(message, Topics.USER_ACTION);
     }
 
     @KafkaListener(topics = Topics.SYSTEM_LOG, groupId = "group-1")
     public void handleSystemLog(String message) {
-        processLogMessage(message, Topics.SYSTEM_LOG);
+        processMessage(message, Topics.SYSTEM_LOG);
     }
 
-    private void processLogMessage(String jsonMessage, String topic) {
+    private void processMessage(String jsonMessage, String topic) {
         try {
             Message message = objectMapper.readValue(jsonMessage, Message.class);
 

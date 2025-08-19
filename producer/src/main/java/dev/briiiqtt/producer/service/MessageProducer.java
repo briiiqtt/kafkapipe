@@ -26,11 +26,11 @@ public class MessageProducer {
 
     public void sendLogMessage(Message message) {
         try {
-            String topic = getTopicByLogType(message.getMessageType());
+            String topic = getTopicByMessageType(message.getMessageType());
             String jsonMessage = objectMapper.writeValueAsString(message);
 
             CompletableFuture<SendResult<String, String>> future =
-                    kafkaTemplate.send(topic, jsonMessage);
+                    kafkaTemplate.send(topic, jsonMessage); // key나 partition 지정 없이 round-robin: 로그를 저장하기만 할거라 순서 보장될 필요 없음
 
             future.whenComplete((result, exception) -> {
                 if (exception == null) {
@@ -45,7 +45,7 @@ public class MessageProducer {
         }
     }
 
-    private String getTopicByLogType(String logType) {
+    private String getTopicByMessageType(String logType) {
         return switch (logType) {
             case "user-action" -> Topics.USER_ACTION;
             case "system-log" -> Topics.SYSTEM_LOG;
