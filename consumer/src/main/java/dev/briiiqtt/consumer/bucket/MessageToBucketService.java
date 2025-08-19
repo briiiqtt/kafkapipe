@@ -1,4 +1,4 @@
-package dev.briiiqtt.consumer.logstorage;
+package dev.briiiqtt.consumer.bucket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.briiiqtt.common.model.Message;
@@ -22,9 +22,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class LogStorageService {
+public class MessageToBucketService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LogStorageService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageToBucketService.class);
     private static final String BUCKET_NAME = "kafka-message";
 
     private final MinioClient minioClient;
@@ -33,7 +33,7 @@ public class LogStorageService {
     private final Map<String, Integer> messageCount = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    public LogStorageService(MinioClient minioClient, ObjectMapper objectMapper) {
+    public MessageToBucketService(MinioClient minioClient, ObjectMapper objectMapper) {
         this.minioClient = minioClient;
         this.objectMapper = objectMapper;
         initializeBucket();

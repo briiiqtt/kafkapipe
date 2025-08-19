@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/log")
+@RequestMapping("/api/message")
 public class MessageController {
 
     private final MessageProducer messageProducer;
@@ -16,12 +16,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<String> sendLog(@RequestBody Message message) {
+    public ResponseEntity<String> sendMessage(@RequestBody Message message) {
         if (false /*TODO: 조건설정*/) {
             return ResponseEntity.badRequest().build();
         }
 
-        messageProducer.sendLogMessage(message);
+        messageProducer.sendMessage(message);
         return ResponseEntity.ok(""/*TODO: response 형식 정의*/);
     }
 }

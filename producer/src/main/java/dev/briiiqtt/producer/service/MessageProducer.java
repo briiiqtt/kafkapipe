@@ -24,7 +24,7 @@ public class MessageProducer {
         this.objectMapper = objectMapper;
     }
 
-    public void sendLogMessage(Message message) {
+    public void sendMessage(Message message) {
         try {
             String topic = getTopicByMessageType(message.getMessageType());
             String jsonMessage = objectMapper.writeValueAsString(message);
@@ -45,11 +45,11 @@ public class MessageProducer {
         }
     }
 
-    private String getTopicByMessageType(String logType) {
-        return switch (logType) {
+    private String getTopicByMessageType(String messageType) {
+        return switch (messageType) {
             case "user-action" -> Topics.USER_ACTION;
             case "system-log" -> Topics.SYSTEM_LOG;
-            default -> Topics.SYSTEM_LOG;
+            default -> throw new RuntimeException("no topic for messageType: " + messageType);
         };
     }
 }
