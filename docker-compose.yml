@@ -142,11 +142,13 @@ services:
       - kafka3
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.1
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -159,24 +161,27 @@ services:
       - "9300:9300"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.13.2
+    build:
+      context: ./kibana
+      dockerfile: Dockerfile
     container_name: kibana
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    networks:
-      - kafka-net
+      I18N_LOCALE: ko-KR
     ports:
       - "5601:5601"
+    networks:
+      - kafka-net
     depends_on:
       - elasticsearch
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.13.2
+    image: docker.elastic.co/logstash/logstash:7.6.1
     container_name: logstash
     networks:
       - kafka-net
     ports:
-      - "5044:5044"  # optional, beats input 용
+      - "52045:52045"  # optional, beats input 용
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
